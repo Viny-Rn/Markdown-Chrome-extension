@@ -174,7 +174,10 @@ function downloadFile(content, mimeType, defaultName) {
       filename: defaultName,
       saveAs: true
     }, () => {
-      URL.revokeObjectURL(url);
+      // Delay revocation so Chrome has time to read the blob data
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 15000);
     });
   } else {
     const a = document.createElement('a');
@@ -183,7 +186,10 @@ function downloadFile(content, mimeType, defaultName) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Delay revocation for standard downloads as well
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 15000);
   }
 }
 
