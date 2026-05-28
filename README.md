@@ -2,8 +2,6 @@
 
 A minimalist, highly premium, and offline-capable Markdown editor packaged as a Google Chrome Extension. Instead of overriding your default New Tab page, it launches cleanly in a new tab when you click the extension icon on your browser toolbar.
 
-![Markdown Studio Screenshot Preview](https://raw.githubusercontent.com/Viny-Rn/Markdown-Chrome-extension/main/icons/icon128.png)
-
 ---
 
 ## Key Features
