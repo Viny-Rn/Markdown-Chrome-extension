@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Markdown Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="theme-light">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-m">M↓</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" id="btn-editor" title="Editor (Ctrl+1)" data-panel="none">
+        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        <span>Editor</span>
+      </button>
+
+      <button class="nav-btn" id="btn-preview" title="Preview (Ctrl+2)" data-panel="preview">
+        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+        <span>Preview</span>
+      </button>
+
+      <button class="nav-btn" id="btn-split" title="Split View (Ctrl+3)" data-panel="split">
+        <svg viewBox="0 0 24 24"><path d="M3 3h8v18H3zm10 0h8v18h-8z"/></svg>
+        <span>Split</span>
+      </button>
+
+      <div class="nav-divider"></div>
+
+      <button class="nav-btn" id="btn-save" title="Save .md (Ctrl+S)">
+        <svg viewBox="0 0 24 24"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg>
+        <span>Save .md</span>
+      </button>
+
+      <button class="nav-btn" id="btn-export-html" title="Export HTML (Ctrl+E)">
+        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+        <span>Export</span>
+      </button>
+
+      <button class="nav-btn" id="btn-print" title="Print/PDF Preview (Ctrl+P)">
+        <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-1-9H6v4h12V3z"/></svg>
+        <span>Print</span>
+      </button>
+
+      <div class="nav-divider"></div>
+
+      <button class="nav-btn" id="btn-help" title="Markdown Help (Ctrl+/)" data-panel="help">
+        <svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14a4 4 0 0 0-4 4h2a2 2 0 0 1 2-2 2 2 0 0 1 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5a4 4 0 0 0-4-4z"/></svg>
+        <span>Help</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="word-count" id="word-count">0 w</span>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="workspace" id="workspace">
+
+    <!-- EDITOR PANE -->
+    <div class="pane editor-pane" id="editor-pane">
+      <div class="pane-header">
+        <div class="header-left">
+          <span class="pane-label">MARKDOWN</span>
+          <div class="filename-container">
+            <input type="text" id="filename-input" class="filename-input" value="untitled.md" title="Double click to rename" spellcheck="false" />
+          </div>
+        </div>
+        <div class="header-right">
+          <span class="status-indicator" id="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Draft</span>
+          </span>
+          <div class="header-divider"></div>
+          <div class="control-group">
+            <button class="control-btn" id="btn-font-dec" title="Decrease Font Size">−</button>
+            <span class="control-label" id="font-size-val">14px</span>
+            <button class="control-btn" id="btn-font-inc" title="Increase Font Size">+</button>
+          </div>
+          <div class="header-divider"></div>
+          <select id="theme-select" class="theme-select" title="Switch Theme">
+            <option value="light">☀️ Light</option>
+            <option value="sepia">📖 Sepia</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="oled">⬛ OLED</option>
+          </select>
+        </div>
+      </div>
+      <div class="editor-container" id="editor-container">
+        <textarea
+          id="editor"
+          spellcheck="true"
+          placeholder="Start writing Markdown here… (Drag and drop a .md file to load)"
+          autofocus
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- PREVIEW PANE -->
+    <div class="pane preview-pane hidden" id="preview-pane">
+      <div class="pane-header">
+        <span class="pane-label">PREVIEW</span>
+      </div>
+      <div class="preview-content" id="preview-content"></div>
+    </div>
+
+    <!-- HELP PANE -->
+    <div class="pane help-pane hidden" id="help-pane">
+      <div class="pane-header">
+        <span class="pane-label">MARKDOWN REFERENCE</span>
+      </div>
+      <div class="help-content" id="help-content"></div>
+    </div>
+
+  </main>
+
+  <!-- PRINT OVERLAY -->
+  <div class="print-overlay hidden" id="print-overlay">
+    <div class="print-overlay-bar">
+      <span>Print & PDF Preview</span>
+      <div class="print-overlay-actions">
+        <button id="print-confirm">Print / Save PDF</button>
+        <button id="print-close">✕ Close</button>
+      </div>
+    </div>
+    <div class="print-frame-wrap">
+      <div class="print-frame" id="print-frame"></div>
+    </div>
+  </div>
+
+  <script src="lib/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
