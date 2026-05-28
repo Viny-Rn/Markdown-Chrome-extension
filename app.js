@@ -167,44 +167,45 @@ function triggerAutoSave() {
 function downloadFile(content, mimeType, defaultName) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
+  const safeName = defaultName.replace(/[\\/]/g, '_');
   
   if (typeof chrome !== 'undefined' && chrome.downloads && chrome.downloads.download) {
     chrome.downloads.download({
       url: url,
-      filename: defaultName,
-      saveAs: true
+      filename: safeName,
+      saveAs: true,
+      conflictAction: 'overwrite'
     }, () => {
-      // Delay revocation so Chrome has time to read the blob data
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 15000);
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
     });
   } else {
     const a = document.createElement('a');
     a.href = url;
-    a.download = defaultName;
+    a.download = safeName;
+    a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    // Delay revocation for standard downloads as well
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 15000);
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
   }
 }
 
 // ── Save as .md ───────────────────────────────────────────────────────────
 function saveMarkdown() {
-  const fn = filenameInput.value.trim() || 'untitled.md';
+  let raw = filenameInput.value.trim();
+  if (!raw) raw = 'untitled';
+  // Ensure .md extension
+  const fn = raw.toLowerCase().endsWith('.md') ? raw : `${raw}.md`;
   downloadFile(editor.value, 'text/markdown', fn);
 }
 
 // ── Export as HTML ────────────────────────────────────────────────────────
 function exportHtml() {
   const rawFilename = filenameInput.value.trim() || 'untitled.md';
-  const displayTitle = rawFilename.replace(/\.md$/i, '');
-  const outFilename = displayTitle + '.html';
-  
+  // Remove .md if present and add .html
+  const base = rawFilename.replace(/\.md$/i, '');
+  const outFilename = `${base}.html`;
+
   const html = typeof marked !== 'undefined'
     ? marked.parse(editor.value || '')
     : `<pre>${escapeHtml(editor.value)}</pre>`;
@@ -214,7 +215,7 @@ function exportHtml() {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>${displayTitle}</title>
+  <title>${base}</title>
   <style>
     body { font-family: 'Georgia', serif; max-width: 720px; margin: 60px auto; padding: 0 24px; font-size: 18px; line-height: 1.75; color: #1c1917; background: #faf7f2; }
     h1 { font-size: 2.2em; font-weight: 300; border-bottom: 2px solid #e0d8cc; padding-bottom: 0.3em; margin-bottom: 0.6em; }
