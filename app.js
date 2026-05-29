@@ -89,7 +89,7 @@ function updateWordCount() {
   const chars = editor.value.length;
   // Avg reading speed: 200 WPM
   const readTime = Math.max(1, Math.ceil(words / 200));
-  wordCountEl.textContent = `${words}w • ${chars}c • ${readTime}m`;
+  wordCountEl.textContent = `${words}${i18n.t('word_unit', 'w')} • ${chars}${i18n.t('char_unit', 'c')} • ${readTime}${i18n.t('minute_unit', 'm')}`;
 }
 
 // ── Mode switching ────────────────────────────────────────────────────────
@@ -291,92 +291,92 @@ const HELP_DATA = [
   {
     titleKey: 'help_headings',
     rows: [
-      ['# H1',        'Heading level 1'],
-      ['## H2',       'Heading level 2'],
-      ['### H3',      'Heading level 3'],
-      ['#### H4',     'Heading level 4'],
-      ['##### H5',    'Heading level 5'],
-      ['###### H6',   'Heading level 6'],
+      { syntax: '# H1',        descKey: 'help_desc_heading_1', desc: 'Heading level 1' },
+      { syntax: '## H2',       descKey: 'help_desc_heading_2', desc: 'Heading level 2' },
+      { syntax: '### H3',      descKey: 'help_desc_heading_3', desc: 'Heading level 3' },
+      { syntax: '#### H4',     descKey: 'help_desc_heading_4', desc: 'Heading level 4' },
+      { syntax: '##### H5',    descKey: 'help_desc_heading_5', desc: 'Heading level 5' },
+      { syntax: '###### H6',   descKey: 'help_desc_heading_6', desc: 'Heading level 6' },
     ]
   },
   {
     titleKey: 'help_emphasis',
     rows: [
-      ['**bold**',          'Bold text'],
-      ['*italic*',          'Italic text'],
-      ['_italic_',          'Italic (alt)'],
-      ['~~strikethrough~~', 'Strikethrough'],
-      ['**_bold italic_**', 'Bold & italic'],
-      ['`inline code`',     'Inline code'],
+      { syntax: '**bold**',          descKey: 'help_desc_bold', desc: 'Bold text' },
+      { syntax: '*italic*',          descKey: 'help_desc_italic', desc: 'Italic text' },
+      { syntax: '_italic_',          descKey: 'help_desc_italic_alt', desc: 'Italic (alt)' },
+      { syntax: '~~strikethrough~~', descKey: 'help_desc_strikethrough', desc: 'Strikethrough' },
+      { syntax: '**_bold italic_**', descKey: 'help_desc_bold_italic', desc: 'Bold & italic' },
+      { syntax: '`inline code`',     descKey: 'help_desc_inline_code', desc: 'Inline code' },
     ]
   },
   {
     titleKey: 'help_lists',
     rows: [
-      ['- item',        'Unordered list item'],
-      ['* item',        'Unordered list (alt)'],
-      ['+ item',        'Unordered list (alt)'],
-      ['1. item',       'Ordered list item'],
-      ['  - nested',    'Nested list (2 spaces)'],
-      ['- [x] task',    'Checked task item'],
-      ['- [ ] task',    'Unchecked task item'],
+      { syntax: '- item',        descKey: 'help_desc_list_unordered', desc: 'Unordered list item' },
+      { syntax: '* item',        descKey: 'help_desc_list_unordered_alt1', desc: 'Unordered list (alt)' },
+      { syntax: '+ item',        descKey: 'help_desc_list_unordered_alt2', desc: 'Unordered list (alt)' },
+      { syntax: '1. item',       descKey: 'help_desc_ordered_list', desc: 'Ordered list item' },
+      { syntax: '  - nested',    descKey: 'help_desc_list_nested', desc: 'Nested list (2 spaces)' },
+      { syntax: '- [x] task',    descKey: 'help_desc_task_checked', desc: 'Checked task item' },
+      { syntax: '- [ ] task',    descKey: 'help_desc_task_unchecked', desc: 'Unchecked task item' },
     ]
   },
   {
     titleKey: 'help_links',
     rows: [
-      ['[text](url)',            'Hyperlink'],
-      ['[text](url "title")',    'Link with title'],
-      ['![alt](url)',            'Image'],
-      ['![alt](url "title")',    'Image with title'],
-      ['[ref][id] … [id]: url', 'Reference link'],
-      ['<https://url>',          'Auto-link'],
+      { syntax: '[text](url)',            descKey: 'help_desc_link', desc: 'Hyperlink' },
+      { syntax: '[text](url "title")',  descKey: 'help_desc_link_title', desc: 'Link with title' },
+      { syntax: '![alt](url)',            descKey: 'help_desc_image', desc: 'Image' },
+      { syntax: '![alt](url "title")',  descKey: 'help_desc_image_title', desc: 'Image with title' },
+      { syntax: '[ref][id] … [id]: url',  descKey: 'help_desc_ref_link', desc: 'Reference link' },
+      { syntax: '<https://url>',          descKey: 'help_desc_auto_link', desc: 'Auto-link' },
     ]
   },
   {
     titleKey: 'help_blockquotes',
     rows: [
-      ['> quote',       'Blockquote'],
-      ['>> nested',     'Nested blockquote'],
-      ['```lang … ```', 'Fenced code block'],
-      ['    code',      'Indented code (4 spaces)'],
+      { syntax: '> quote',       descKey: 'help_desc_blockquote', desc: 'Blockquote' },
+      { syntax: '>> nested',     descKey: 'help_desc_blockquote_nested', desc: 'Nested blockquote' },
+      { syntax: '```lang … ```', descKey: 'help_desc_code_fence', desc: 'Fenced code block' },
+      { syntax: '    code',      descKey: 'help_desc_code_indent', desc: 'Indented code (4 spaces)' },
     ]
   },
   {
     titleKey: 'help_tables',
     rows: [
-      ['| A | B |',           'Table row'],
-      ['|---|---|',            'Header separator'],
-      ['|:--|--:|:-:|',       'Left / right / center align'],
+      { syntax: '| A | B |',        descKey: 'help_desc_table_row', desc: 'Table row' },
+      { syntax: '|---|---|',         descKey: 'help_desc_table_header', desc: 'Header separator' },
+      { syntax: '|:--|--:|:-:|',    descKey: 'help_desc_table_align', desc: 'Left / right / center align' },
     ]
   },
   {
     titleKey: 'help_rules',
     rows: [
-      ['---',   'Horizontal rule'],
-      ['***',   'Horizontal rule (alt)'],
-      ['___',   'Horizontal rule (alt)'],
+      { syntax: '---', descKey: 'help_desc_rule', desc: 'Horizontal rule' },
+      { syntax: '***', descKey: 'help_desc_rule_alt1', desc: 'Horizontal rule (alt)' },
+      { syntax: '___', descKey: 'help_desc_rule_alt2', desc: 'Horizontal rule (alt)' },
     ]
   },
   {
     titleKey: 'help_escaping',
     rows: [
-      ['\\*',   'Literal asterisk'],
-      ['\\#',   'Literal hash'],
-      ['\\`',   'Literal backtick'],
-      ['\\[',   'Literal bracket'],
-      ['&amp;', 'HTML entity: &'],
-      ['&lt;',  'HTML entity: <'],
+      { syntax: '\\*', descKey: 'help_desc_escape_asterisk', desc: 'Literal asterisk' },
+      { syntax: '\\#', descKey: 'help_desc_escape_hash', desc: 'Literal hash' },
+      { syntax: '\\`', descKey: 'help_desc_escape_backtick', desc: 'Literal backtick' },
+      { syntax: '\\[', descKey: 'help_desc_escape_bracket', desc: 'Literal bracket' },
+      { syntax: '&amp;', descKey: 'help_desc_escape_amp', desc: 'HTML entity: &' },
+      { syntax: '&lt;',  descKey: 'help_desc_escape_lt', desc: 'HTML entity: <' },
     ]
   },
   {
     titleKey: 'help_misc',
     rows: [
-      ['<!-- comment -->',  'HTML comment (hidden)'],
-      ['<br>',              'Line break'],
-      ['&nbsp;',            'Non-breaking space'],
-      ['\\',                'Trailing backslash = <br>'],
-      ['---',               'Front matter delimiter (YAML)'],
+      { syntax: '<!-- comment -->', descKey: 'help_desc_misc_comment', desc: 'HTML comment (hidden)' },
+      { syntax: '<br>',             descKey: 'help_desc_misc_br', desc: 'Line break' },
+      { syntax: '&nbsp;',           descKey: 'help_desc_misc_nbsp', desc: 'Non-breaking space' },
+      { syntax: '\\',              descKey: 'help_desc_misc_backslash', desc: 'Trailing backslash = <br>' },
+      { syntax: '---',              descKey: 'help_desc_misc_frontmatter', desc: 'Front matter delimiter (YAML)' },
     ]
   },
 ];
@@ -388,14 +388,14 @@ function buildHelp() {
     const sec = document.createElement('div');
     sec.className = 'help-section';
     sec.innerHTML = `<h3>${i18n.t(section.titleKey, section.titleKey)}</h3>`;
-    section.rows.forEach(([syntax, desc]) => {
-      const row = document.createElement('div');
-      row.className = 'help-row';
-      row.innerHTML = `
-        <span class="help-syntax">${escapeHtml(syntax)}</span>
-        <span class="help-desc">${escapeHtml(desc)}</span>
+    section.rows.forEach(row => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'help-row';
+      rowEl.innerHTML = `
+        <span class="help-syntax">${escapeHtml(row.syntax)}</span>
+        <span class="help-desc">${escapeHtml(i18n.t(row.descKey, row.desc))}</span>
       `;
-      sec.appendChild(row);
+      sec.appendChild(rowEl);
     });
     container.appendChild(sec);
   });
