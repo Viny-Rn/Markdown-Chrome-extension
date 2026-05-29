@@ -21,6 +21,7 @@ const fontSizeVal    = document.getElementById('font-size-val');
 const btnFontDec     = document.getElementById('btn-font-dec');
 const btnFontInc     = document.getElementById('btn-font-inc');
 const themeSelect    = document.getElementById('theme-select');
+const languageSelect = document.getElementById('language-select');
 const printConfirm   = document.getElementById('print-confirm');
 const printClose     = document.getElementById('print-close');
 const editorContainer = document.getElementById('editor-container');
@@ -137,16 +138,16 @@ function applyFontSize(size) {
   storage.set({ 'md-studio-fontsize': currentFontSize });
 }
 
-// ── Auto-save Status ──────────────────────────────────────────────────────
+// ── Auto-save Status ─��────────────────────────────────────────────────────
 function setSaveStatus(status) {
   const statusIndicator = document.getElementById('status-indicator');
   const statusText = statusIndicator.querySelector('.status-text');
   if (status === 'saved') {
     statusIndicator.classList.remove('unsaved');
-    statusText.textContent = 'Saved';
+    statusText.textContent = i18n.t('status_saved', 'Saved');
   } else {
     statusIndicator.classList.add('unsaved');
-    statusText.textContent = 'Saving...';
+    statusText.textContent = i18n.t('status_saving', 'Saving...');
   }
 }
 
@@ -183,7 +184,7 @@ function downloadFile(content, mimeType, defaultName) {
 // ── Save as .md ─────────────────────────────────────────────────────────
 function saveMarkdown() {
   let raw = filenameInput.value.trim();
-  if (!raw) raw = 'untitled';
+  if (!raw) raw = i18n.t('untitled', 'untitled');
   // Ensure .md extension
   const fn = raw.toLowerCase().endsWith('.md') ? raw : `${raw}.md`;
   downloadFile(editor.value, 'text/markdown', fn);
@@ -191,7 +192,7 @@ function saveMarkdown() {
 
 // ── Export as HTML ────────────────────────────────────────────────────────
 function exportHtml() {
-  const rawFilename = filenameInput.value.trim() || 'untitled.md';
+  const rawFilename = filenameInput.value.trim() || `${i18n.t('untitled', 'untitled')}.md`;
   // Remove .md if present and add .html
   const base = rawFilename.replace(/\.md$/i, '');
   const outFilename = `${base}.html`;
@@ -253,7 +254,7 @@ function insertFormat(prefix, suffix) {
   triggerAutoSave();
 }
 
-// ── Drag & Drop File Loading ──────────────────────────────────────────────
+// ── Drag & Drop File Loading ──────��───────────────────────────────────────
 function setupDragAndDrop() {
   editorContainer.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -288,7 +289,7 @@ function setupDragAndDrop() {
 // ── Help content ───────────────────────────────────────────────────────────
 const HELP_DATA = [
   {
-    title: 'Headings',
+    titleKey: 'help_headings',
     rows: [
       ['# H1',        'Heading level 1'],
       ['## H2',       'Heading level 2'],
@@ -299,7 +300,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Emphasis',
+    titleKey: 'help_emphasis',
     rows: [
       ['**bold**',          'Bold text'],
       ['*italic*',          'Italic text'],
@@ -310,7 +311,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Lists',
+    titleKey: 'help_lists',
     rows: [
       ['- item',        'Unordered list item'],
       ['* item',        'Unordered list (alt)'],
@@ -322,7 +323,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Links & Images',
+    titleKey: 'help_links',
     rows: [
       ['[text](url)',            'Hyperlink'],
       ['[text](url "title")',    'Link with title'],
@@ -333,7 +334,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Blockquotes & Code',
+    titleKey: 'help_blockquotes',
     rows: [
       ['> quote',       'Blockquote'],
       ['>> nested',     'Nested blockquote'],
@@ -342,7 +343,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Tables',
+    titleKey: 'help_tables',
     rows: [
       ['| A | B |',           'Table row'],
       ['|---|---|',            'Header separator'],
@@ -350,7 +351,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Horizontal Rules',
+    titleKey: 'help_rules',
     rows: [
       ['---',   'Horizontal rule'],
       ['***',   'Horizontal rule (alt)'],
@@ -358,7 +359,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Escaping',
+    titleKey: 'help_escaping',
     rows: [
       ['\\*',   'Literal asterisk'],
       ['\\#',   'Literal hash'],
@@ -369,7 +370,7 @@ const HELP_DATA = [
     ]
   },
   {
-    title: 'Miscellaneous',
+    titleKey: 'help_misc',
     rows: [
       ['<!-- comment -->',  'HTML comment (hidden)'],
       ['<br>',              'Line break'],
@@ -386,7 +387,7 @@ function buildHelp() {
   HELP_DATA.forEach(section => {
     const sec = document.createElement('div');
     sec.className = 'help-section';
-    sec.innerHTML = `<h3>${section.title}</h3>`;
+    sec.innerHTML = `<h3>${i18n.t(section.titleKey, section.titleKey)}</h3>`;
     section.rows.forEach(([syntax, desc]) => {
       const row = document.createElement('div');
       row.className = 'help-row';
@@ -456,6 +457,12 @@ function initEvents() {
   // Theme Select Listener
   themeSelect.addEventListener('change', () => {
     applyTheme(themeSelect.value);
+  });
+
+  // Language Select Listener
+  languageSelect.addEventListener('change', () => {
+    i18n.setLanguage(languageSelect.value);
+    buildHelp();
   });
 
   // Keyboard shortcuts
@@ -551,8 +558,11 @@ Ctrl/Cmd + K  → Link
 }
 
 // Init
-buildHelp();
-initEvents();
-setupDragAndDrop();
-initEditor();
-setMode('editor');
+i18n.init().then(() => {
+  languageSelect.value = i18n.currentLanguage;
+  buildHelp();
+  initEvents();
+  setupDragAndDrop();
+  initEditor();
+  setMode('editor');
+});
