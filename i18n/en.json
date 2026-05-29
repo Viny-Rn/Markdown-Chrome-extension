@@ -49,5 +49,7 @@
   "help_escaping": "Escaping",
   "help_misc": "Miscellaneous",
   "language": "Language",
+  "language_select": "Switch language",
+  "placeholder_text": "Start writing Markdown here… (Drag and drop a .md file to load)",
   "untitled": "untitled"
 }

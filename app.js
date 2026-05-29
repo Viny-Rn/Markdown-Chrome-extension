@@ -401,6 +401,42 @@ function buildHelp() {
   });
 }
 
+function buildWelcomeText() {
+  return `# ${i18n.t('welcome_title', 'Welcome to Markdown Studio')}
+
+${i18n.t('welcome_intro', 'Start writing your document here. This editor supports **full** CommonMark markdown.')}
+
+## ${i18n.t('welcome_features', 'Features')}
+
+- ${i18n.t('welcome_feature_1', 'Live **preview** and **split** view')}
+- ${i18n.t('welcome_feature_2', 'Customizable **themes** (Light, Sepia, Dark, OLED)')}
+- ${i18n.t('welcome_feature_3', 'Dynamic **font size** adjuster')}
+- ${i18n.t('welcome_feature_4', 'Smart **auto-save** indicator')}
+- ${i18n.t('welcome_feature_5', 'Local **file imports** via Drag and Drop')}
+- ${i18n.t('welcome_feature_6', 'Export to **.md** or **.html**')}
+- ${i18n.t('welcome_feature_7', '**Print / PDF** preview layout')}
+- ${i18n.t('welcome_feature_8', 'Keyboard formatting shortcuts (Ctrl+B, Ctrl+I, Ctrl+K)')}
+- ${i18n.t('welcome_feature_9', 'Markdown **reference** panel')}
+
+> ${i18n.t('welcome_note', 'Use the sidebar on the left to switch modes, save, or export your work.')}
+
+\`\`\`
+${i18n.t('shortcuts_title', 'Keyboard Shortcuts')}
+
+Ctrl/Cmd + S  → ${i18n.t('shortcut_save', 'Save as .md')}
+Ctrl/Cmd + E  → ${i18n.t('shortcut_export', 'Export as HTML')}
+Ctrl/Cmd + P  → ${i18n.t('shortcut_print', 'Print / PDF preview')}
+Ctrl/Cmd + 1  → ${i18n.t('shortcut_editor', 'Editor')}
+Ctrl/Cmd + 2  → ${i18n.t('shortcut_preview', 'Preview')}
+Ctrl/Cmd + 3  → ${i18n.t('shortcut_split', 'Split view')}
+Ctrl/Cmd + /  → ${i18n.t('shortcut_help', 'Help')}
+Ctrl/Cmd + B  → ${i18n.t('shortcut_bold', 'Bold')}
+Ctrl/Cmd + I  → ${i18n.t('shortcut_italic', 'Italic')}
+Ctrl/Cmd + K  → ${i18n.t('shortcut_link', 'Link')}
+\`\`\`
+`;
+}
+
 // ── Event Wiring ──────────────────────────────────────────────────────────
 function initEvents() {
   document.getElementById('btn-editor').addEventListener('click',       () => setMode('editor'));
@@ -518,37 +554,7 @@ function initEditor() {
     if (items['md-studio-content']) {
       editor.value = items['md-studio-content'];
     } else {
-      editor.value = `# Welcome to Markdown Studio
-
-Start writing your document here. This editor supports **full** CommonMark markdown.
-
-## Features
-
-- Live **preview** and **split** view
-- Customizable **themes** (Light, Sepia, Dark, OLED)
-- Dynamic **font size** adjuster
-- Smart **auto-save** indicator
-- Local **file imports** via Drag & Drop
-- Export to **.md** or **.html**
-- **Print / PDF** preview layout
-- Keyboard formatting shortcuts (Ctrl+B, Ctrl+I, Ctrl+K)
-- Markdown **reference** panel
-
-> Use the sidebar on the left to switch modes, save, or export your work.
-
-\`\`\`
-Ctrl/Cmd + S  → Save as .md
-Ctrl/Cmd + E  → Export as HTML
-Ctrl/Cmd + P  → Print / PDF preview
-Ctrl/Cmd + 1  → Editor
-Ctrl/Cmd + 2  → Preview
-Ctrl/Cmd + 3  → Split view
-Ctrl/Cmd + /  → Help
-Ctrl/Cmd + B  → Bold
-Ctrl/Cmd + I  → Italic
-Ctrl/Cmd + K  → Link
-\`\`\`
-`;
+      editor.value = buildWelcomeText();
     }
     
     updateWordCount();

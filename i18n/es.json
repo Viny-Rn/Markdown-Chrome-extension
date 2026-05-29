@@ -49,5 +49,7 @@
   "help_escaping": "Escape",
   "help_misc": "Miscelánea",
   "language": "Idioma",
+  "language_select": "Cambiar idioma",
+  "placeholder_text": "Comienza a escribir Markdown aquí… (Arrastra y suelta un archivo .md para cargarlo)",
   "untitled": "sin-título"
 }
