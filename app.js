@@ -1,6 +1,6 @@
 /* ── Markdown Studio — app.js ─────────────────────────────────────────── */
 
-// ── State ───────────────────────────────────────────────────────────────
+// ── State ──────────────────────────────────────────────────────────────
 let currentMode = 'editor'; // 'editor' | 'preview' | 'split' | 'help'
 let currentTheme = 'light';
 let currentFontSize = 14;
@@ -163,34 +163,24 @@ function triggerAutoSave() {
   }, 1000); // Trigger save 1s after last input
 }
 
-// ── Downloads Manager (Chrome Downloads API with standard fallback) ──────
+// ── Downloads Manager (Standard download with proper filename handling) ──────
 function downloadFile(content, mimeType, defaultName) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const safeName = defaultName.replace(/[\\/]/g, '_');
   
-  if (typeof chrome !== 'undefined' && chrome.downloads && chrome.downloads.download) {
-    chrome.downloads.download({
-      url: url,
-      filename: safeName,
-      saveAs: true,
-      conflictAction: 'overwrite'
-    }, () => {
-      setTimeout(() => URL.revokeObjectURL(url), 15000);
-    });
-  } else {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = safeName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 15000);
-  }
+  // Use standard anchor-based download which properly respects the filename
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = safeName;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
 }
 
-// ── Save as .md ───────────────────────────────────────────────────────────
+// ── Save as .md ─────────────────────────────────────────────────────────
 function saveMarkdown() {
   let raw = filenameInput.value.trim();
   if (!raw) raw = 'untitled';
@@ -295,7 +285,7 @@ function setupDragAndDrop() {
   });
 }
 
-// ── Help content ──────────────────────────────────────────────────────────
+// ── Help content ───────────────────────────────────────────────────────────
 const HELP_DATA = [
   {
     title: 'Headings',
