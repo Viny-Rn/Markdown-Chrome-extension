@@ -5,6 +5,7 @@ let currentMode = 'editor'; // 'editor' | 'preview' | 'split' | 'help'
 let currentTheme = 'light';
 let currentFontSize = 14;
 let saveTimeout = null;
+let isWelcomeContent = false;
 
 // ── DOM refs ────────────────────────────────────────────────────────────
 const editor         = document.getElementById('editor');
@@ -457,6 +458,9 @@ function initEvents() {
 
   // Editor Inputs
   editor.addEventListener('input', () => {
+    if (isWelcomeContent && editor.value !== buildWelcomeText()) {
+      isWelcomeContent = false;
+    }
     updateWordCount();
     if (currentMode === 'preview' || currentMode === 'split') {
       renderPreview();
@@ -499,6 +503,13 @@ function initEvents() {
   languageSelect.addEventListener('change', () => {
     i18n.setLanguage(languageSelect.value);
     buildHelp();
+    if (isWelcomeContent) {
+      editor.value = buildWelcomeText();
+      updateWordCount();
+      if (currentMode === 'preview' || currentMode === 'split') {
+        renderPreview();
+      }
+    }
   });
 
   // Keyboard shortcuts
@@ -553,8 +564,10 @@ function initEditor() {
     
     if (items['md-studio-content']) {
       editor.value = items['md-studio-content'];
+      isWelcomeContent = false;
     } else {
       editor.value = buildWelcomeText();
+      isWelcomeContent = true;
     }
     
     updateWordCount();
