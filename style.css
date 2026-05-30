@@ -517,16 +517,30 @@ body {
   font-weight: 400;
   font-style: italic;
   margin: 1.4em 0 0.5em;
-  color: var(--accent-2);
 }
 
-.preview-content h4, .preview-content h5, .preview-content h6 {
+.preview-content h4 {
   font-size: 1.1em;
   font-weight: 600;
   margin: 1.2em 0 0.4em;
   font-family: var(--ui);
+}
+
+.preview-content h5 {
+  font-size: 0.95em;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  font-family: var(--ui);
   text-transform: uppercase;
-  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.preview-content h6 {
+  font-size: 0.85em;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  font-family: var(--ui);
+  text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
