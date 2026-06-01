@@ -107,6 +107,8 @@
   "minute_unit": "m",
   "language": "Idioma",
   "language_select": "Cambiar idioma",
+  "invalid_file": "Por favor selecciona un archivo .md o .txt.",
+  "upload_title": "Abrir archivo (.md/.txt)",
   "placeholder_text": "Comienza a escribir Markdown aquí… (Arrastra y suelta un archivo .md para cargarlo)",
   "untitled": "sin-título"
 }
