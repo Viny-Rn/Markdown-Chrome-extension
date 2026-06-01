@@ -22,7 +22,7 @@
   "welcome_feature_2": "Customizable **themes** (Light, Sepia, Dark, OLED)",
   "welcome_feature_3": "Dynamic **font size** adjuster",
   "welcome_feature_4": "Smart **auto-save** indicator",
-  "welcome_feature_5": "Local **file imports** via Drag & Drop",
+  "welcome_feature_5": "Local **file imports** via Drag and Drop",
   "welcome_feature_6": "Export to **.md** or **.html**",
   "welcome_feature_7": "**Print / PDF** preview layout",
   "welcome_feature_8": "Keyboard formatting shortcuts (Ctrl+B, Ctrl+I, Ctrl+K)",
@@ -108,5 +108,7 @@
   "language": "Language",
   "language_select": "Switch language",
   "placeholder_text": "Start writing Markdown here… (Drag and drop a .md file to load)",
-  "untitled": "untitled"
+  "untitled": "untitled",
+  "invalid_file": "Please select a .md or .txt file.",
+  "upload_title": "Open file (.md/.txt)"
 }
