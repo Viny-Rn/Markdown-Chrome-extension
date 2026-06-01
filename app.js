@@ -1,13 +1,13 @@
 /* ── Markdown Studio — app.js ─────────────────────────────────────────── */
 
-// ── State ──────────────────────────────────────────────────────────────
+// ── State ────────────────────────────────────────────────────────────�[...]
 let currentMode = 'editor'; // 'editor' | 'preview' | 'split' | 'help'
 let currentTheme = 'light';
 let currentFontSize = 14;
 let saveTimeout = null;
 let isWelcomeContent = false;
 
-// ── DOM refs ────────────────────────────────────────────────────────────
+// ── DOM refs ───────────────────────────────────────────────────────────[...]
 const editor         = document.getElementById('editor');
 const workspace      = document.getElementById('workspace');
 const editorPane     = document.getElementById('editor-pane');
@@ -26,6 +26,10 @@ const languageSelect = document.getElementById('language-select');
 const printConfirm   = document.getElementById('print-confirm');
 const printClose     = document.getElementById('print-close');
 const editorContainer = document.getElementById('editor-container');
+
+// New DOM refs for file upload (hidden input + upload button)
+const fileInput = document.getElementById('file-input');
+const btnUpload  = document.getElementById('btn-upload');
 
 // ── Storage Utility (Chrome Storage API with LocalStorage Fallback) ──
 const storage = {
@@ -287,7 +291,7 @@ function setupDragAndDrop() {
   });
 }
 
-// ── Help content ───────────────────────────────────────────────────────────
+// ── Help content ─────────────────────────────────────────────────────────�[...]
 const HELP_DATA = [
   {
     titleKey: 'help_headings',
@@ -421,8 +425,7 @@ ${i18n.t('welcome_intro', 'Start writing your document here. This editor support
 
 > ${i18n.t('welcome_note', 'Use the sidebar on the left to switch modes, save, or export your work.')}
 
-\`\`\`
-${i18n.t('shortcuts_title', 'Keyboard Shortcuts')}
+\`\`\`\n${i18n.t('shortcuts_title', 'Keyboard Shortcuts')}
 
 Ctrl/Cmd + S  → ${i18n.t('shortcut_save', 'Save as .md')}
 Ctrl/Cmd + E  → ${i18n.t('shortcut_export', 'Export as HTML')}
@@ -434,11 +437,10 @@ Ctrl/Cmd + /  → ${i18n.t('shortcut_help', 'Help')}
 Ctrl/Cmd + B  → ${i18n.t('shortcut_bold', 'Bold')}
 Ctrl/Cmd + I  → ${i18n.t('shortcut_italic', 'Italic')}
 Ctrl/Cmd + K  → ${i18n.t('shortcut_link', 'Link')}
-\`\`\`
-`;
+\`\`\`\n`;
 }
 
-// ── Event Wiring ──────────────────────────────────────────────────────────
+// ── Event Wiring ───────────────────────���─────────────────────────────────�[...]
 function initEvents() {
   document.getElementById('btn-editor').addEventListener('click',       () => setMode('editor'));
   document.getElementById('btn-preview').addEventListener('click',      () => setMode('preview'));
@@ -484,6 +486,44 @@ function initEvents() {
   filenameInput.addEventListener('input', () => {
     triggerAutoSave();
   });
+
+  // Upload button & file input handlers
+  if (btnUpload && fileInput) {
+    btnUpload.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+
+      // Accept .md and .txt (also check MIME)
+      if (
+        f.name.toLowerCase().endsWith('.md') ||
+        f.name.toLowerCase().endsWith('.txt') ||
+        f.type === 'text/markdown' ||
+        f.type === 'text/plain'
+      ) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          editor.value = evt.target.result;
+          filenameInput.value = f.name;
+          updateWordCount();
+          if (currentMode === 'preview' || currentMode === 'split') {
+            renderPreview();
+          }
+          triggerAutoSave();
+        };
+        reader.readAsText(f);
+      } else {
+        // Localized message if i18n available
+        alert(i18n && i18n.t ? i18n.t('invalid_file', 'Please select a .md or .txt file.') : 'Please select a .md or .txt file.');
+      }
+
+      // Reset so same file can be selected again
+      e.target.value = '';
+    });
+  }
 
   // Font Size Listeners
   btnFontDec.addEventListener('click', () => {
