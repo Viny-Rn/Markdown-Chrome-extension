@@ -26,7 +26,7 @@
   "welcome_feature_6": "Export en **.md** ou **.html**",
   "welcome_feature_7": "Aperçu de mise en page **Imprimer / PDF**",
   "welcome_feature_8": "Raccourcis clavier de formatage (Ctrl+B, Ctrl+I, Ctrl+K)",
-  "welcome_feature_9": "Panneau de **r��férence** Markdown",
+  "welcome_feature_9": "Panneau de **référence** Markdown",
   "welcome_note": "Utilisez la barre latérale sur la gauche pour basculer les modes, enregistrer ou exporter votre travail.",
   "shortcuts_title": "Raccourcis Clavier",
   "shortcut_save": "Enregistrer en .md",
@@ -107,6 +107,8 @@
   "minute_unit": "m",
   "language": "Langue",
   "language_select": "Changer la langue",
+  "invalid_file": "Veuillez sélectionner un fichier .md ou .txt.",
+  "upload_title": "Ouvrir un fichier (.md/.txt)",
   "placeholder_text": "Commencez à écrire du Markdown ici… (Faites glisser et déposer un fichier .md pour le charger)",
   "untitled": "sans-titre"
 }
