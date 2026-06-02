@@ -1,13 +1,13 @@
 /* ── Markdown Studio — app.js ─────────────────────────────────────────── */
 
-// ── State ─────────────────────────────────────────────────────────────[...]
+// ── State ────────────────────────────────────────────────────────────────
 let currentMode = 'editor'; // 'editor' | 'preview' | 'split' | 'help'
 let currentTheme = 'light';
 let currentFontSize = 14;
 let saveTimeout = null;
 let isWelcomeContent = false;
 
-// ── DOM refs ───────────────────────────────────────────────────────────[...]
+// ── DOM refs ───────────────────────────────────────────────────────────────
 const editor         = document.getElementById('editor');
 const workspace      = document.getElementById('workspace');
 const editorPane     = document.getElementById('editor-pane');
@@ -49,6 +49,14 @@ const storage = {
       for (let k in items) {
         localStorage.setItem(k, items[k]);
       }
+      if (callback) callback();
+    }
+  },
+  clear: function(callback) {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.clear(callback);
+    } else {
+      localStorage.clear();
       if (callback) callback();
     }
   }
@@ -132,7 +140,7 @@ function applyTheme(theme) {
   storage.set({ 'md-studio-theme': theme });
 }
 
-// ── Font Size Management ───────────────────────────────────────��──────────
+// ── Font Size Management ──────────────────────────────────────────────────
 function applyFontSize(size) {
   currentFontSize = Math.max(12, Math.min(24, size));
   document.body.style.setProperty('--editor-font-size', `${currentFontSize}px`);
@@ -240,6 +248,27 @@ function openPrintPreview() {
   printOverlay.classList.remove('hidden');
 }
 
+// ── New Document ──────────────────────────────────────────────────────────
+function newDocument() {
+  // Clear the editor and reset to welcome content
+  editor.value = buildWelcomeText();
+  filenameInput.value = 'untitled.md';
+  isWelcomeContent = true;
+  updateWordCount();
+  renderPreview();
+  
+  // Clear storage to reset the editor state
+  storage.set({
+    'md-studio-content': editor.value,
+    'md-studio-filename': 'untitled.md'
+  }, () => {
+    setSaveStatus('saved');
+  });
+  
+  setMode('editor');
+  editor.focus();
+}
+
 // ── Markdown Formatting Helpers ───────────────────────────────────────────
 function insertFormat(prefix, suffix) {
   const start = editor.selectionStart;
@@ -300,7 +329,7 @@ function setupDragAndDrop() {
   });
 }
 
-// ── Help content ─────────────────────────────────────────────────────────[...]
+// ── Help content ──────────────────────────────────────────────────────────
 const HELP_DATA = [
   {
     titleKey: 'help_headings',
@@ -452,13 +481,14 @@ Ctrl/Cmd + K  → ${i18n.t('shortcut_link', 'Link')}
 `;
 }
 
-// ── Event Wiring ─────────────────────────────────────────────────────────[...]
+// ── Event Wiring ──────────────────────────────────────────────────────────
 function initEvents() {
   document.getElementById('btn-editor').addEventListener('click',       () => setMode('editor'));
   document.getElementById('btn-preview').addEventListener('click',      () => setMode('preview'));
   document.getElementById('btn-split').addEventListener('click',        () => setMode('split'));
   document.getElementById('btn-help').addEventListener('click',         () => setMode('help'));
   document.getElementById('btn-open').addEventListener('click',         () => fileInput.click());
+  document.getElementById('btn-new').addEventListener('click',          newDocument);
   document.getElementById('btn-save').addEventListener('click',         saveMarkdown);
   document.getElementById('btn-export-html').addEventListener('click',  exportHtml);
   document.getElementById('btn-print').addEventListener('click',        openPrintPreview);
@@ -573,6 +603,16 @@ function initEvents() {
     }
   });
 }
+
+// ── Handle Window Close Event (Reset on close) ─────────────────────────────
+window.addEventListener('beforeunload', () => {
+  // When the window/tab is about to close, clear the stored content
+  // This prevents the old text from appearing in a new window
+  storage.set({
+    'md-studio-content': '',
+    'md-studio-filename': 'untitled.md'
+  });
+});
 
 // ── Initialization ────────────────────────────────────────────────────────
 function initEditor() {
