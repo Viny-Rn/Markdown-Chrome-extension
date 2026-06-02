@@ -2,6 +2,7 @@
   "editor": "ÉDITEUR",
   "preview": "APERÇU",
   "split": "DIVISION",
+  "open": "Ouvrir Fichier",
   "help": "AIDE",
   "save": "Enregistrer .md",
   "export": "Exporter",
@@ -26,10 +27,11 @@
   "welcome_feature_6": "Export en **.md** ou **.html**",
   "welcome_feature_7": "Aperçu de mise en page **Imprimer / PDF**",
   "welcome_feature_8": "Raccourcis clavier de formatage (Ctrl+B, Ctrl+I, Ctrl+K)",
-  "welcome_feature_9": "Panneau de **r��férence** Markdown",
+  "welcome_feature_9": "Panneau de **référence** Markdown",
   "welcome_note": "Utilisez la barre latérale sur la gauche pour basculer les modes, enregistrer ou exporter votre travail.",
   "shortcuts_title": "Raccourcis Clavier",
   "shortcut_save": "Enregistrer en .md",
+  "shortcut_open": "Ouvrir fichier",
   "shortcut_export": "Exporter en HTML",
   "shortcut_print": "Aperçu Imprimer / PDF",
   "shortcut_editor": "Éditeur",
@@ -78,7 +80,7 @@
   "help_desc_code_fence": "Bloc de code délimité",
   "help_desc_code_indent": "Code indenté (4 espaces)",
   "help_desc_table_row": "Ligne de tableau",
-  "help_desc_table_header": "Séparateur d’en-tête",
+  "help_desc_table_header": "Séparateur d'en-tête",
   "help_desc_table_align": "Alignement gauche / droite / centre",
   "help_desc_rule": "Règle horizontale",
   "help_desc_rule_alt1": "Règle horizontale (alt)",
@@ -108,5 +110,7 @@
   "language": "Langue",
   "language_select": "Changer la langue",
   "placeholder_text": "Commencez à écrire du Markdown ici… (Faites glisser et déposer un fichier .md pour le charger)",
-  "untitled": "sans-titre"
+  "untitled": "sans-titre",
+  "file_read_error": "Erreur lors de la lecture du fichier. Veuillez réessayer.",
+  "file_type_error": "Veuillez sélectionner un fichier .md ou .txt."
 }
