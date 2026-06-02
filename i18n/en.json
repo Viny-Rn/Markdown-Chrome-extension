@@ -2,6 +2,7 @@
   "editor": "EDITOR",
   "preview": "PREVIEW",
   "split": "SPLIT",
+  "open": "Open File",
   "help": "HELP",
   "save": "Save .md",
   "export": "Export",
@@ -30,6 +31,7 @@
   "welcome_note": "Use the sidebar on the left to switch modes, save, or export your work.",
   "shortcuts_title": "Keyboard Shortcuts",
   "shortcut_save": "Save as .md",
+  "shortcut_open": "Open file",
   "shortcut_export": "Export as HTML",
   "shortcut_print": "Print / PDF preview",
   "shortcut_editor": "Editor",
@@ -108,5 +110,7 @@
   "language": "Language",
   "language_select": "Switch language",
   "placeholder_text": "Start writing Markdown here… (Drag and drop a .md file to load)",
-  "untitled": "untitled"
+  "untitled": "untitled",
+  "file_read_error": "Error reading file. Please try again.",
+  "file_type_error": "Please select a .md or .txt file."
 }
