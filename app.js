@@ -1,13 +1,13 @@
 /* ── Markdown Studio — app.js ─────────────────────────────────────────── */
 
-// ── State ──────────────────────────────────────────────────────────────
+// ── State ─────────────────────────────────────────────────────────────[...]
 let currentMode = 'editor'; // 'editor' | 'preview' | 'split' | 'help'
 let currentTheme = 'light';
 let currentFontSize = 14;
 let saveTimeout = null;
 let isWelcomeContent = false;
 
-// ── DOM refs ────────────────────────────────────────────────────────────
+// ── DOM refs ───────────────────────────────────────────────────────────[...]
 const editor         = document.getElementById('editor');
 const workspace      = document.getElementById('workspace');
 const editorPane     = document.getElementById('editor-pane');
@@ -26,6 +26,7 @@ const languageSelect = document.getElementById('language-select');
 const printConfirm   = document.getElementById('print-confirm');
 const printClose     = document.getElementById('print-close');
 const editorContainer = document.getElementById('editor-container');
+const fileInput      = document.getElementById('file-input');
 
 // ── Storage Utility (Chrome Storage API with LocalStorage Fallback) ──
 const storage = {
@@ -131,7 +132,7 @@ function applyTheme(theme) {
   storage.set({ 'md-studio-theme': theme });
 }
 
-// ── Font Size Management ──────────────────────────────────────────────────
+// ── Font Size Management ───────────────────────────────────────��──────────
 function applyFontSize(size) {
   currentFontSize = Math.max(12, Math.min(24, size));
   document.body.style.setProperty('--editor-font-size', `${currentFontSize}px`);
@@ -139,7 +140,7 @@ function applyFontSize(size) {
   storage.set({ 'md-studio-fontsize': currentFontSize });
 }
 
-// ── Auto-save Status ─��────────────────────────────────────────────────────
+// ── Auto-save Status ───────────────────────────────────────────────────────
 function setSaveStatus(status) {
   const statusIndicator = document.getElementById('status-indicator');
   const statusText = statusIndicator.querySelector('.status-text');
@@ -255,7 +256,29 @@ function insertFormat(prefix, suffix) {
   triggerAutoSave();
 }
 
-// ── Drag & Drop File Loading ──────��───────────────────────────────────────
+// ── Load File from Input ──────────────────────────────────────────────────
+function loadFileContent(file) {
+  if (file && (file.name.endsWith('.md') || file.name.endsWith('.txt') || file.type === 'text/markdown' || file.type === 'text/plain')) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      editor.value = evt.target.result;
+      filenameInput.value = file.name;
+      isWelcomeContent = false;
+      updateWordCount();
+      renderPreview();
+      triggerAutoSave();
+      setMode('editor');
+    };
+    reader.onerror = function() {
+      alert(i18n.t('file_read_error', 'Error reading file. Please try again.'));
+    };
+    reader.readAsText(file);
+  } else {
+    alert(i18n.t('file_type_error', 'Please select a .md or .txt file.'));
+  }
+}
+
+// ── Drag & Drop File Loading ────────────────────────────────────────────────
 function setupDragAndDrop() {
   editorContainer.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -272,22 +295,12 @@ function setupDragAndDrop() {
     
     if (e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
-      if (file.name.endsWith('.md') || file.name.endsWith('.txt') || file.type === 'text/markdown' || file.type === 'text/plain') {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          editor.value = evt.target.result;
-          filenameInput.value = file.name;
-          updateWordCount();
-          renderPreview();
-          triggerAutoSave();
-        };
-        reader.readAsText(file);
-      }
+      loadFileContent(file);
     }
   });
 }
 
-// ── Help content ───────────────────────────────────────────────────────────
+// ── Help content ─────────────────────────────────────────────────────────[...]
 const HELP_DATA = [
   {
     titleKey: 'help_headings',
@@ -425,6 +438,7 @@ ${i18n.t('welcome_intro', 'Start writing your document here. This editor support
 ${i18n.t('shortcuts_title', 'Keyboard Shortcuts')}
 
 Ctrl/Cmd + S  → ${i18n.t('shortcut_save', 'Save as .md')}
+Ctrl/Cmd + O  → ${i18n.t('shortcut_open', 'Open file')}
 Ctrl/Cmd + E  → ${i18n.t('shortcut_export', 'Export as HTML')}
 Ctrl/Cmd + P  → ${i18n.t('shortcut_print', 'Print / PDF preview')}
 Ctrl/Cmd + 1  → ${i18n.t('shortcut_editor', 'Editor')}
@@ -438,15 +452,24 @@ Ctrl/Cmd + K  → ${i18n.t('shortcut_link', 'Link')}
 `;
 }
 
-// ── Event Wiring ──────────────────────────────────────────────────────────
+// ── Event Wiring ─────────────────────────────────────────────────────────[...]
 function initEvents() {
   document.getElementById('btn-editor').addEventListener('click',       () => setMode('editor'));
   document.getElementById('btn-preview').addEventListener('click',      () => setMode('preview'));
   document.getElementById('btn-split').addEventListener('click',        () => setMode('split'));
   document.getElementById('btn-help').addEventListener('click',         () => setMode('help'));
+  document.getElementById('btn-open').addEventListener('click',         () => fileInput.click());
   document.getElementById('btn-save').addEventListener('click',         saveMarkdown);
   document.getElementById('btn-export-html').addEventListener('click',  exportHtml);
   document.getElementById('btn-print').addEventListener('click',        openPrintPreview);
+
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      loadFileContent(e.target.files[0]);
+      // Reset the input so the same file can be opened again
+      e.target.value = '';
+    }
+  });
 
   printConfirm.addEventListener('click', () => {
     window.print();
@@ -522,6 +545,7 @@ function initEvents() {
     // Command combinations
     switch (e.key.toLowerCase()) {
       case 's': e.preventDefault(); saveMarkdown();      break;
+      case 'o': e.preventDefault(); fileInput.click();   break;
       case 'e': e.preventDefault(); exportHtml();        break;
       case 'p': e.preventDefault(); openPrintPreview();  break;
       case '1': e.preventDefault(); setMode('editor');   break;
