@@ -90,7 +90,7 @@ Contributors should follow these guidelines:
 
 ## Contact
 
-For security-related inquiries, please reach out to [your contact information].
+For security-related inquiries, please reach out to viny.rn.dev@gmail.com
 
 For general questions or issues, please use the [GitHub Issues](https://github.com/Viny-Rn/markdown-chrome-extension/issues) page.
 
