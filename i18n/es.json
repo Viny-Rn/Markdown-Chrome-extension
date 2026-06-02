@@ -2,6 +2,7 @@
   "editor": "EDITOR",
   "preview": "VISTA PREVIA",
   "split": "DIVISIÓN",
+  "open": "Abrir Archivo",
   "help": "AYUDA",
   "save": "Guardar .md",
   "export": "Exportar",
@@ -30,6 +31,7 @@
   "welcome_note": "Usa la barra lateral a la izquierda para cambiar de modo, guardar o exportar tu trabajo.",
   "shortcuts_title": "Atajos de Teclado",
   "shortcut_save": "Guardar como .md",
+  "shortcut_open": "Abrir archivo",
   "shortcut_export": "Exportar como HTML",
   "shortcut_print": "Vista Previa Imprimir / PDF",
   "shortcut_editor": "Editor",
@@ -108,5 +110,7 @@
   "language": "Idioma",
   "language_select": "Cambiar idioma",
   "placeholder_text": "Comienza a escribir Markdown aquí… (Arrastra y suelta un archivo .md para cargarlo)",
-  "untitled": "sin-título"
+  "untitled": "sin-título",
+  "file_read_error": "Error al leer el archivo. Por favor, inténtalo de nuevo.",
+  "file_type_error": "Por favor, selecciona un archivo .md o .txt."
 }
