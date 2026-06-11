@@ -112,5 +112,12 @@
   "placeholder_text": "Commencez à écrire du Markdown ici… (Faites glisser et déposer un fichier .md pour le charger)",
   "untitled": "sans-titre",
   "file_read_error": "Erreur lors de la lecture du fichier. Veuillez réessayer.",
-  "file_type_error": "Veuillez sélectionner un fichier .md ou .txt."
+  "file_type_error": "Veuillez sélectionner un fichier .md ou .txt.",
+  "clear_text_title": "Effacer l'éditeur",
+  "clear_text_btn": "Effacer",
+  "clear_modal_title": "Modifications non enregistrées",
+  "clear_modal_body": "L'éditeur contient du texte. Souhaitez-vous l'enregistrer dans un fichier Markdown avant de l'effacer ?",
+  "clear_modal_save": "Enregistrer et Effacer",
+  "clear_modal_discard": "Effacer sans Enregistrer",
+  "clear_modal_cancel": "Annuler"
 }

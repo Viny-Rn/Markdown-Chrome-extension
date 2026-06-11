@@ -112,5 +112,12 @@
   "placeholder_text": "Comienza a escribir Markdown aquí… (Arrastra y suelta un archivo .md para cargarlo)",
   "untitled": "sin-título",
   "file_read_error": "Error al leer el archivo. Por favor, inténtalo de nuevo.",
-  "file_type_error": "Por favor, selecciona un archivo .md o .txt."
+  "file_type_error": "Por favor, selecciona un archivo .md o .txt.",
+  "clear_text_title": "Limpiar editor",
+  "clear_text_btn": "Limpiar",
+  "clear_modal_title": "Cambios no guardados",
+  "clear_modal_body": "Tienes contenido en el editor. ¿Te gustaría guardarlo como un archivo Markdown antes de limpiar?",
+  "clear_modal_save": "Guardar y Limpiar",
+  "clear_modal_discard": "Limpiar sin Guardar",
+  "clear_modal_cancel": "Cancelar"
 }

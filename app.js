@@ -27,6 +27,11 @@ const printConfirm   = document.getElementById('print-confirm');
 const printClose     = document.getElementById('print-close');
 const editorContainer = document.getElementById('editor-container');
 const fileInput      = document.getElementById('file-input');
+const btnClearText   = document.getElementById('btn-clear-text');
+const clearConfirmModal = document.getElementById('clear-confirm-modal');
+const btnModalSave   = document.getElementById('btn-modal-save');
+const btnModalDiscard = document.getElementById('btn-modal-discard');
+const btnModalCancel = document.getElementById('btn-modal-cancel');
 
 // ── Storage Utility (Chrome Storage API with LocalStorage Fallback) ──
 const storage = {
@@ -256,6 +261,17 @@ function insertFormat(prefix, suffix) {
   triggerAutoSave();
 }
 
+function clearEditorContent() {
+  editor.value = '';
+  isWelcomeContent = false;
+  updateWordCount();
+  if (currentMode === 'preview' || currentMode === 'split') {
+    renderPreview();
+  }
+  triggerAutoSave();
+  editor.focus();
+}
+
 // ── Load File from Input ──────────────────────────────────────────────────
 function loadFileContent(file) {
   if (file && (file.name.endsWith('.md') || file.name.endsWith('.txt') || file.type === 'text/markdown' || file.type === 'text/plain')) {
@@ -462,6 +478,29 @@ function initEvents() {
   document.getElementById('btn-save').addEventListener('click',         saveMarkdown);
   document.getElementById('btn-export-html').addEventListener('click',  exportHtml);
   document.getElementById('btn-print').addEventListener('click',        openPrintPreview);
+
+  btnClearText.addEventListener('click', () => {
+    if (!editor.value.trim()) {
+      clearEditorContent();
+      return;
+    }
+    clearConfirmModal.classList.remove('hidden');
+  });
+
+  btnModalSave.addEventListener('click', () => {
+    saveMarkdown();
+    clearEditorContent();
+    clearConfirmModal.classList.add('hidden');
+  });
+
+  btnModalDiscard.addEventListener('click', () => {
+    clearEditorContent();
+    clearConfirmModal.classList.add('hidden');
+  });
+
+  btnModalCancel.addEventListener('click', () => {
+    clearConfirmModal.classList.add('hidden');
+  });
 
   fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {

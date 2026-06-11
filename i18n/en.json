@@ -112,5 +112,12 @@
   "placeholder_text": "Start writing Markdown here… (Drag and drop a .md file to load)",
   "untitled": "untitled",
   "file_read_error": "Error reading file. Please try again.",
-  "file_type_error": "Please select a .md or .txt file."
+  "file_type_error": "Please select a .md or .txt file.",
+  "clear_text_title": "Clear editor",
+  "clear_text_btn": "Clear",
+  "clear_modal_title": "Unsaved Changes",
+  "clear_modal_body": "You have content in the editor. Would you like to save it as a Markdown file before clearing?",
+  "clear_modal_save": "Save & Clear",
+  "clear_modal_discard": "Clear Without Saving",
+  "clear_modal_cancel": "Cancel"
 }

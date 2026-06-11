@@ -78,6 +78,9 @@
           <div class="filename-container">
             <input type="text" id="filename-input" class="filename-input" value="untitled.md" data-i18n-title="filename_title" title="Double click to rename" spellcheck="false" />
           </div>
+          <button class="clear-btn" id="btn-clear-text" data-i18n-title="clear_text_title" title="Clear editor">
+            <span data-i18n="clear_text_btn">Clear</span>
+          </button>
         </div>
         <div class="header-right">
           <span class="status-indicator" id="status-indicator">
@@ -145,6 +148,19 @@
     </div>
     <div class="print-frame-wrap">
       <div class="print-frame" id="print-frame"></div>
+    </div>
+  </div>
+
+  <!-- CLEAR CONFIRMATION MODAL -->
+  <div class="modal-overlay hidden" id="clear-confirm-modal">
+    <div class="modal-card">
+      <h3 class="modal-title" data-i18n="clear_modal_title">Unsaved Changes</h3>
+      <p class="modal-body" data-i18n="clear_modal_body">You have content in the editor. Would you like to save it as a Markdown file before clearing?</p>
+      <div class="modal-actions">
+        <button class="modal-btn btn-primary" id="btn-modal-save" data-i18n="clear_modal_save">Save & Clear</button>
+        <button class="modal-btn btn-danger" id="btn-modal-discard" data-i18n="clear_modal_discard">Clear Without Saving</button>
+        <button class="modal-btn btn-secondary" id="btn-modal-cancel" data-i18n="clear_modal_cancel">Cancel</button>
+      </div>
     </div>
   </div>
 
