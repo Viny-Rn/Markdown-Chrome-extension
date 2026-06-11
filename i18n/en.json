@@ -119,5 +119,7 @@
   "clear_modal_body": "You have content in the editor. Would you like to save it as a Markdown file before clearing?",
   "clear_modal_save": "Save & Clear",
   "clear_modal_discard": "Clear Without Saving",
-  "clear_modal_cancel": "Cancel"
+  "clear_modal_cancel": "Cancel",
+  "new_document": "New",
+  "new_document_title": "New Document"
 }

@@ -119,5 +119,7 @@
   "clear_modal_body": "L'éditeur contient du texte. Souhaitez-vous l'enregistrer dans un fichier Markdown avant de l'effacer ?",
   "clear_modal_save": "Enregistrer et Effacer",
   "clear_modal_discard": "Effacer sans Enregistrer",
-  "clear_modal_cancel": "Annuler"
+  "clear_modal_cancel": "Annuler",
+  "new_document": "Nouveau",
+  "new_document_title": "Nouveau document"
 }
