@@ -112,5 +112,7 @@
   "placeholder_text": "Commencez à écrire du Markdown ici… (Faites glisser et déposer un fichier .md pour le charger)",
   "untitled": "sans-titre",
   "file_read_error": "Erreur lors de la lecture du fichier. Veuillez réessayer.",
-  "file_type_error": "Veuillez sélectionner un fichier .md ou .txt."
+  "file_type_error": "Veuillez sélectionner un fichier .md ou .txt.",
+  "new_document": "Nouveau",
+  "new_document_title": "Nouveau document"
 }
