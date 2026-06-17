@@ -153,31 +153,7 @@ function applyFontSize(size) {
   storage.set({ 'md-studio-fontsize': currentFontSize });
 }
 
-// ── Auto-save Status ───────────────────────────────────────────────────────
-function setSaveStatus(status) {
-  const statusIndicator = document.getElementById('status-indicator');
-  const statusText = statusIndicator.querySelector('.status-text');
-  if (status === 'saved') {
-    statusIndicator.classList.remove('unsaved');
-    statusText.textContent = i18n.t('status_saved', 'Saved');
-  } else {
-    statusIndicator.classList.add('unsaved');
-    statusText.textContent = i18n.t('status_saving', 'Saving...');
-  }
-}
 
-function triggerAutoSave() {
-  setSaveStatus('unsaved');
-  if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    storage.set({
-      'md-studio-content': editor.value,
-      'md-studio-filename': filenameInput.value
-    }, () => {
-      setSaveStatus('saved');
-    });
-  }, 1000); // Trigger save 1s after last input
-}
 
 // ── Downloads Manager (Standard download with proper filename handling) ──────
 function downloadFile(content, mimeType, defaultName) {
@@ -276,7 +252,6 @@ function insertFormat(prefix, suffix) {
   editor.focus();
   updateWordCount();
   renderPreview();
-  triggerAutoSave();
 }
 
 function clearEditorContent() {
@@ -286,7 +261,6 @@ function clearEditorContent() {
   if (currentMode === 'preview' || currentMode === 'split') {
     renderPreview();
   }
-  triggerAutoSave();
   editor.focus();
 }
 
@@ -300,7 +274,6 @@ function loadFileContent(file) {
       isWelcomeContent = false;
       updateWordCount();
       renderPreview();
-      triggerAutoSave();
       setMode('editor');
     };
     reader.onerror = function() {
@@ -546,7 +519,6 @@ function initEvents() {
     if (currentMode === 'preview' || currentMode === 'split') {
       renderPreview();
     }
-    triggerAutoSave();
   });
 
   // Tab key helper
@@ -561,10 +533,7 @@ function initEvents() {
     }
   });
 
-  // Renaming input
-  filenameInput.addEventListener('input', () => {
-    triggerAutoSave();
-  });
+
 
   // Font Size Listeners
   btnFontDec.addEventListener('click', () => {
@@ -632,14 +601,12 @@ function initEvents() {
   });
 }
 
-// ── Handle Window Close Event (Reset on close) ─────────────────────────────
-window.addEventListener('beforeunload', () => {
-  // When the window/tab is about to close, clear the stored content
-  // This prevents the old text from appearing in a new window
-  storage.set({
-    'md-studio-content': '',
-    'md-studio-filename': 'untitled.md'
-  });
+// ── Handle Window Close Event (Confirm before exit) ────────────────────────
+window.addEventListener('beforeunload', (e) => {
+  if (editor.value.trim() && !isWelcomeContent) {
+    e.preventDefault();
+    e.returnValue = ''; // Standard browser confirmation dialog
+  }
 });
 
 // ── Initialization ────────────────────────────────────────────────────────
@@ -651,32 +618,23 @@ function initEditor() {
   }
 
   storage.get({
-    'md-studio-content': '',
     'md-studio-theme': 'light',
-    'md-studio-fontsize': 14,
-    'md-studio-filename': 'untitled.md'
+    'md-studio-fontsize': 14
   }, (items) => {
     applyTheme(items['md-studio-theme']);
     applyFontSize(parseInt(items['md-studio-fontsize']) || 14);
     
+    filenameInput.value = 'untitled.md';
     if (isNewDoc) {
       editor.value = '';
-      filenameInput.value = 'untitled.md';
       isWelcomeContent = false;
     } else {
-      filenameInput.value = items['md-studio-filename'] || 'untitled.md';
-      if (items['md-studio-content']) {
-        editor.value = items['md-studio-content'];
-        isWelcomeContent = false;
-      } else {
-        editor.value = buildWelcomeText();
-        isWelcomeContent = true;
-      }
+      editor.value = buildWelcomeText();
+      isWelcomeContent = true;
     }
     
     updateWordCount();
     renderPreview();
-    setSaveStatus('saved');
   });
 }
 

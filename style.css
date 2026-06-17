@@ -314,31 +314,7 @@ body {
   align-items: center;
 }
 
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-right: 4px;
-}
 
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--status-saved);
-  transition: background-color 0.25s ease;
-}
-
-.status-indicator.unsaved .status-dot {
-  background-color: var(--status-unsaved);
-}
-
-.status-text {
-  font-size: 11px;
-  font-family: var(--ui);
-  font-weight: 500;
-  color: var(--muted);
-}
 
 .header-divider {
   width: 1px;
