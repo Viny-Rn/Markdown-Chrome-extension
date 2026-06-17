@@ -499,7 +499,7 @@ function initEvents() {
   document.getElementById('btn-print').addEventListener('click',        openPrintPreview);
 
   btnClearText.addEventListener('click', () => {
-    if (!editor.value.trim()) {
+    if (!editor.value.trim() || isWelcomeContent) {
       clearEditorContent();
       return;
     }
