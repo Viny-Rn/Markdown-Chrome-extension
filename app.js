@@ -255,23 +255,12 @@ function openPrintPreview() {
 
 // ── New Document ──────────────────────────────────────────────────────────
 function newDocument() {
-  // Clear the editor and reset to welcome content
-  editor.value = buildWelcomeText();
-  filenameInput.value = 'untitled.md';
-  isWelcomeContent = true;
-  updateWordCount();
-  renderPreview();
-  
-  // Clear storage to reset the editor state
-  storage.set({
-    'md-studio-content': editor.value,
-    'md-studio-filename': 'untitled.md'
-  }, () => {
-    setSaveStatus('saved');
-  });
-  
-  setMode('editor');
-  editor.focus();
+  const url = 'editor.html?new=true';
+  if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
+    chrome.tabs.create({ url: url });
+  } else {
+    window.open(url, '_blank');
+  }
 }
 
 // ── Markdown Formatting Helpers ───────────────────────────────────────────
@@ -655,6 +644,12 @@ window.addEventListener('beforeunload', () => {
 
 // ── Initialization ────────────────────────────────────────────────────────
 function initEditor() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isNewDoc = urlParams.get('new') === 'true';
+  if (isNewDoc) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   storage.get({
     'md-studio-content': '',
     'md-studio-theme': 'light',
@@ -663,14 +658,20 @@ function initEditor() {
   }, (items) => {
     applyTheme(items['md-studio-theme']);
     applyFontSize(parseInt(items['md-studio-fontsize']) || 14);
-    filenameInput.value = items['md-studio-filename'] || 'untitled.md';
     
-    if (items['md-studio-content']) {
-      editor.value = items['md-studio-content'];
+    if (isNewDoc) {
+      editor.value = '';
+      filenameInput.value = 'untitled.md';
       isWelcomeContent = false;
     } else {
-      editor.value = buildWelcomeText();
-      isWelcomeContent = true;
+      filenameInput.value = items['md-studio-filename'] || 'untitled.md';
+      if (items['md-studio-content']) {
+        editor.value = items['md-studio-content'];
+        isWelcomeContent = false;
+      } else {
+        editor.value = buildWelcomeText();
+        isWelcomeContent = true;
+      }
     }
     
     updateWordCount();
